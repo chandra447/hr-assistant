@@ -29,6 +29,21 @@ jobs:
         command: 'generate'
         output-dir: 'outputs_tf'
         
+    - name: Debug - Check generated files
+      run: |
+        echo "Current directory contents:"
+        ls -la
+        echo "Checking if outputs_tf exists:"
+        if [ -d "outputs_tf" ]; then
+          echo "outputs_tf directory exists"
+          ls -la outputs_tf/
+        else
+          echo "outputs_tf directory does not exist"
+          echo "Creating outputs_tf directory..."
+          mkdir -p outputs_tf
+          echo "Created outputs_tf directory"
+        fi
+        
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
       with:
@@ -36,6 +51,8 @@ jobs:
         
     - name: Terraform Init
       run: |
+        ls -la outputs_tf/
+        chmod -R 755 outputs_tf/
         cd outputs_tf
         terraform init \
           -backend-config="bucket=${{ secrets.TERRAFORM_STATE_BUCKET }}" \
@@ -83,6 +100,21 @@ jobs:
         command: 'generate'
         output-dir: 'outputs_tf'
         
+    - name: Debug - Check generated files
+      run: |
+        echo "Current directory contents:"
+        ls -la
+        echo "Checking if outputs_tf exists:"
+        if [ -d "outputs_tf" ]; then
+          echo "outputs_tf directory exists"
+          ls -la outputs_tf/
+        else
+          echo "outputs_tf directory does not exist"
+          echo "Creating outputs_tf directory..."
+          mkdir -p outputs_tf
+          echo "Created outputs_tf directory"
+        fi
+        
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
       with:
@@ -90,6 +122,8 @@ jobs:
         
     - name: Terraform Init
       run: |
+        ls -la outputs_tf/
+        chmod -R 755 outputs_tf/
         cd outputs_tf
         terraform init \
           -backend-config="bucket=${{ secrets.TERRAFORM_STATE_BUCKET }}" \
