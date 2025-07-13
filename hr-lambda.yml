@@ -1,0 +1,26 @@
+kind: Lambda
+metadata:
+  name: hr-lambda-function
+  description: "Lambda function for HR operations including vacation management"
+spec:
+  runtime: python3.9
+  handler: lambda_function.lambda_handler
+  code:
+    source: "./lambda-functions/hr-lambda/"
+  environment:
+    LOG_LEVEL: "INFO"
+    DB_PATH: "/tmp/employee_database.db"
+  timeout: 60
+  memorySize: 512
+  architectures: ["x86_64"]
+  
+  # Auto-generated IAM role with basic Lambda execution permissions
+  iamRole:
+    autoCreate: true
+  
+  tags:
+    Function: "hr-operations"
+    Environment: "production"
+    Project: "hr-assistant"
+    Team: "human-resources"
+    ManagedBy: "bedrock-forge"

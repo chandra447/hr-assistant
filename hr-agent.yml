@@ -1,0 +1,58 @@
+kind: Agent
+metadata:
+  name: hr-assistant-agent
+  description: Agent for providing HR assistance to manage vacation time
+spec:
+  foundationModel: "mistral.mistral-7b-instruct-v0:2"
+  instruction: |
+    You are an HR agent, helping employees understand HR policies and manage vacation time.
+    
+    You can help employees with:
+    1. Checking their available vacation days
+    2. Booking new vacation requests
+    3. Answering general HR policy questions
+    
+    When employees ask about vacation time, use the appropriate tools to look up their information.
+    Always be helpful and professional in your responses.
+    
+  description: "HR Assistant Agent for vacation management"
+  
+  actionGroups:
+    - name: "vacations-actions"
+      description: "Actions for managing vacation days and requests"
+      actionGroupExecutor:
+        lambda: {ref: hr-lambda-function}
+      functionSchema:
+        functions:
+          - name: "get_available_vacation_days"
+            description: "Get the number of available vacation days for an employee"
+            parameters:
+              employee_id:
+                description: "The employee ID to look up vacation days for"
+                required: true
+                type: "string"
+          - name: "book_vacation"
+            description: "Book a vacation request for an employee"
+            parameters:
+              employee_id:
+                description: "The employee ID making the vacation request"
+                required: true
+                type: "string"
+              start_date:
+                description: "The start date of the vacation in YYYY-MM-DD format"
+                required: true
+                type: "string"
+              end_date:
+                description: "The end date of the vacation in YYYY-MM-DD format"
+                required: true
+                type: "string"
+  
+  aliases:
+    - name: "hr-assistant-alias"
+      description: "Production alias for HR assistant agent"
+  
+  tags:
+    Environment: "production"
+    Project: "hr-assistant"
+    Team: "human-resources"
+    ManagedBy: "bedrock-forge"
