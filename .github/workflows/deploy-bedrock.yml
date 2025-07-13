@@ -3,7 +3,6 @@ name: Deploy Bedrock Agents
 on:
   push:
     branches: [main]
-    paths: ['**/*.yml', '**/*.yaml']
 
 jobs:
   deploy-dev:
