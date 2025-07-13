@@ -10,6 +10,9 @@ jobs:
     name: Deploy to Development
     runs-on: ubuntu-latest
     environment: development
+    permissions:
+      id-token: write
+      contents: read
     
     steps:
     - name: Checkout code
@@ -61,6 +64,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     needs: deploy-dev
+    permissions:
+      id-token: write
+      contents: read
     
     steps:
     - name: Checkout code
