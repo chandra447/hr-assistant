@@ -23,11 +23,27 @@ jobs:
         role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
         aws-region: ap-southeast-2
     
-    - name: Generate Terraform
-      uses: chandra447/bedrock-forge@main
+    - name: Checkout Bedrock Forge
+      uses: actions/checkout@v4
       with:
-        command: 'generate'
-        output-dir: 'outputs_tf'
+        repository: 'chandra447/bedrock-forge'
+        ref: 'main'
+        path: .bedrock-forge
+
+    - name: Setup Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+
+    - name: Build Bedrock Forge
+      working-directory: .bedrock-forge
+      run: |
+        go build -o ../bedrock-forge ./cmd/bedrock-forge
+
+    - name: Generate Terraform
+      run: |
+        mkdir -p outputs_tf
+        ./bedrock-forge generate . outputs_tf
         
     - name: Debug - Check generated files
       run: |
@@ -94,11 +110,27 @@ jobs:
         role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
         aws-region: ap-southeast-2
     
-    - name: Generate Terraform
-      uses: chandra447/bedrock-forge@main
+    - name: Checkout Bedrock Forge
+      uses: actions/checkout@v4
       with:
-        command: 'generate'
-        output-dir: 'outputs_tf'
+        repository: 'chandra447/bedrock-forge'
+        ref: 'main'
+        path: .bedrock-forge
+
+    - name: Setup Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+
+    - name: Build Bedrock Forge
+      working-directory: .bedrock-forge
+      run: |
+        go build -o ../bedrock-forge ./cmd/bedrock-forge
+
+    - name: Generate Terraform
+      run: |
+        mkdir -p outputs_tf
+        ./bedrock-forge generate . outputs_tf
         
     - name: Debug - Check generated files
       run: |
